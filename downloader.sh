@@ -10,7 +10,14 @@ https://github.com/maqsud-dev/web-files/tree/main/examples/folder-02?noancestors
 curl -H "Accept: application/json" https://github.com/maqsud-dev/web-files/tree/main/examples?noancestors=1
 
 JSON_DATA=$(curl -H "Accept: application/json" https://github.com/maqsud-dev/web-files/tree/main/examples?noancestors=1)
+
+echo $JSON_DATA | jq ".payload.tree.items[1]"
+echo $JSON_DATA | jq ".payload.tree.items[1].name"
+echo $JSON_DATA | jq ".payload.tree.items[1].contentType"
+echo $JSON_DATA | jq ".payload.tree.totalCount"
+
 echo $JSON_DATA | jq ".payload.fileTree" | jq ".[]" | jq .items
 echo $JSON_DATA | jq ".payload.fileTree" | jq ".[]" | jq .totalCount
 FILE_TREE=$(echo $JSON_DATA | jq ".payload.fileTree")
+
 
