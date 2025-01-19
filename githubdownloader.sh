@@ -13,7 +13,7 @@ BASE_PATH_COPY_TO=$2
 
 mkdir -p $BASE_PATH_COPY_TO
 
-JSON_DATA=$(curl -H "Accept: application/json" "$DIR_BASE_URL/$BASE_SUB_URI$DIR_SUFFIX")
+JSON_DATA=$(curl -H "Accept: application/json" "$DIR_BASE_URL/$BASE_SUB_URI$DIR_SUFFIX"  2>/dev/null)
 
 ind=0
 for nm in $(echo $JSON_DATA | jq -r ".payload.tree.items[].name") ; do 
@@ -21,12 +21,12 @@ for nm in $(echo $JSON_DATA | jq -r ".payload.tree.items[].name") ; do
   ind=$((ind+1));
   case "$tp" in
     "directory")
-      echo "papka: $nm";
+#      echo "papka: $nm";
       $SCRIPT "$BASE_SUB_URI/$nm" "$BASE_PATH_COPY_TO/$nm"
       ;;
     "file")
-      echo "file: $nm";
-      curl -o $BASE_PATH_COPY_TO/$nm $FILE_BASE_URL/$BASE_SUB_URI/$nm
+      echo "Download: $BASE_SUB_URI/$nm";
+      curl -o $BASE_PATH_COPY_TO/$nm $FILE_BASE_URL/$BASE_SUB_URI/$nm  2>/dev/null
       ;;
   esac
 done;
